@@ -1,0 +1,42 @@
+@startuml
+
+Title "Концептуальная модель IT News"
+
+rectangle "Веб-Сервер" as webServer
+rectangle  "База Данных" as database
+rectangle  "Пользовательский Интерфейс" as userInterface
+rectangle  "Модуль Управления Новостями" as newsManagement
+rectangle  "Модуль Поиска" as searchModule
+rectangle  "Сервис" as Service
+rectangle  "Сервис парсинга" as ServiceParsing
+rectangle  "Сервис аннотирования" as ServiceAnnotation
+rectangle  "Парсер" as ParserBase
+rectangle  "Парсер новостного ресурса" as ParserUnit
+rectangle  "Искусственный интеллект" as AI
+
+rectangle  "Новостная статья" as newsStorage
+rectangle  "Хранилище Пользовательских Данных" as userStorage
+
+database --* newsStorage : Хранит данные новостных статей
+database --* userStorage : Хранение пользовательских данных
+
+webServer --o database : Доступ к данным
+webServer --> userInterface : Отправка пользовательских запросов
+webServer --> newsManagement : Управление новостями
+webServer --> searchModule : Выполнение поиска
+
+userInterface --> newsManagement : Отображение новостей и взаимодействие с ними
+userInterface --> searchModule : Ввод поисковых запросов
+
+Service -up-> webServer: Обмен данными
+
+Service --o ServiceAnnotation: Получает данные
+ServiceAnnotation --> AI: Отправляет статью
+
+Service --o ServiceParsing : Отправляет Данные
+ServiceParsing --o ParserBase : Отправляет данные
+
+ParserBase --* ParserUnit : Произвоит сбор новостей
+
+
+@enduml

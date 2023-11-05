@@ -1,0 +1,59 @@
+@startuml
+title Классовая диаграмма IT News
+
+class Article {
+    - title: String
+    - author: String
+    - postHref: String
+    - body: String
+    - imageHref: String
+}
+
+class BaseParser {
+    - url: String
+    + _fetch_html(): bytes
+    + _send_data_to_server(data: Any): void
+    + parse(): BeautifulSoup
+}
+
+class Parser {
+    + periodicallyReadArticleListPage(): List<String>
+    + checkArticleExistence(url: String): boolean
+    + parseArticle(url: String): Article
+}
+
+class FlaskAPI {
+    - database: PostgresqlDatabase
+    + saveArticle(article: Article): JSON
+    + generateSummary(articles: List<Article>): JSON
+    + categorizeArticles(articles: List<Article>): JSON
+    + processArticleWithAI(articleText: String): JSON
+}
+
+class AI {
+    + processArticle(text: String): JSON
+}
+
+class UI {
+    + displayLatestArticles(articles: List<Article>): JSON
+    + searchByCategory(category: String): JSON
+    + contextualSearch(keyword: String): JSON
+    + fetchArticlesFromDatabase(): JSON
+}
+
+class PostgresqlDatabase {
+    + save(data: Any): JSON
+    + load(id: String): JSON
+}
+
+BaseParser *-- Article: Класс BaseParser владеет множеством статей
+BaseParser -- FlaskAPI:  Каждый экземпляр BaseParser обращается к одному экземпляру FlaskAPI
+Parser --|> BaseParser : Наследует  Класс Parser наследует от BaseParser
+FlaskAPI -- PostgresqlDatabase:  Каждый экземпляр FlaskAPI работает с одной базой данных
+FlaskAPI --|> AI:  Каждый экземпляр FlaskAPI обращается к одному экземпляру AI
+PostgresqlDatabase o-- Article:  Класс PostgresqlDatabase содержит ссылки на статьи
+
+UI --|> FlaskAPI
+
+@enduml
+ 

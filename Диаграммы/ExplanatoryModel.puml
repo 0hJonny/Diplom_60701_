@@ -1,0 +1,39 @@
+@startuml
+title Диаграмма Пояснительной Модели IT News
+
+actor "Читатель" as Reader
+participant "UI (VUE.JS)" as UI
+participant "BackEnd (Flask API)" as BackEnd
+database "База данных\nPostgresql" as Database
+participant "Искусственный Интеллект (AI)" as AI
+participant "Парсер" as Parser
+
+Reader -> UI : (1) Запрашивает статьи
+UI -> BackEnd : (2) Запрашивает данные
+BackEnd -> Database : (3) Запрашивает статьи
+Database --> BackEnd : (4) Отправляет данные
+BackEnd -> AI : (5) Запрашивает обработку статей
+AI --> BackEnd : (6) Отправляет обработанные данные
+BackEnd -> Parser : (7) Запрашивает парсинг статей
+Parser --> BackEnd : (8) Отправляет спарсенные данные
+BackEnd -> Database : (9) Сохраняет статьи в базе
+Database --> BackEnd : (10) Подтверждение сохранения
+BackEnd --> UI : (11) Возвращает статьи
+UI --> Reader : (12) Отображает статьи
+
+note left of Reader
+  Читатель - это конечный пользователь, который
+  просматривает статьи.
+end note
+
+note right of AI
+  Искусственный Интеллект обрабатывает статьи, создает
+  краткие обзоры и категоризирует их.
+end note
+
+note right of Parser
+  Парсер ответственен за сбор данных из веб-ресурсов и
+  передачу данных в сервер Flask API.
+end note
+
+@enduml

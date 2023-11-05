@@ -1,0 +1,73 @@
+@startuml
+title Use Case Диаграмма IT News
+
+left to right direction
+
+actor "Читатель" as Reader
+
+"UI (VUE.JS)" as UI
+
+"BackEnd" as BackEnd
+
+package BackEnd {
+
+    "Парсинг" as Parser
+    "Flask" as Flask
+
+    actor "AI (ChatGPT)" as AI
+
+    
+    rectangle Flask{
+
+        database "База данных\nPostgresql" as postgreSQL
+
+        (Сохранить статью в хранилище) as SaveToDB
+        (Прочитать статью из хранилища) as LoadFromDB
+        (Создать summary по статьям) as DoSumary
+        (Определить категорию статьи) as DoFindCategory
+        
+        actor "Flask API" as FlaskAPI
+    }
+    
+
+    rectangle Parser {
+        
+        actor "Сервис" as Service
+
+        (Периодически прочитать страницу со списком статей) as DoCheckSite
+        (Проверить наличие статей в хранилище) as DoCheckArticleFromDB
+        (Прочитать статью) as DoReadArticel
+
+        Service -- DoCheckArticleFromDB
+        Service -- DoCheckSite
+        Service -up- DoReadArticel 
+
+        Service -- FlaskAPI
+
+    }
+
+    FlaskAPI -down- SaveToDB
+    FlaskAPI -up- LoadFromDB
+
+
+
+    SaveToDB -> postgreSQL
+
+    postgreSQL -> LoadFromDB    
+
+    DoSumary .down.> DoReadArticel : extend
+    DoFindCategory .down.> DoReadArticel : extend
+    
+    AI -- DoSumary
+    AI -- DoFindCategory
+}
+
+
+
+package UI {
+    Reader -- (Просмотр последних статей)
+    Reader -- (Поиск по категориям)
+    Reader  -- (Контекстный поиск)
+}
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+title Концептуальная Диаграмма IT News
+
+entity "Статья" as Article {
+  + title: строка
+  + author: строка
+  + postHref: строка
+  + body: текст
+  + imageHref: строка
+}
+
+entity "Базовый Парсер" as BaseParser {
+  + articles: список статей
+}
+
+entity "Парсер" as Parser {
+  + articles: список статей
+}
+
+entity "FlaskAPI" as FlaskAPI {
+  + database: PostgresqlDatabase
+}
+
+entity "Искусственный Интеллект (AI)" as AI {
+  // Нет конкретных атрибутов
+}
+
+entity "Пользовательский Интерфейс (UI)" as UI {
+  + theme: строка
+  + language: строка
+}
+
+entity "База Данных Postgresql" as PostgresqlDatabase {
+  // Нет конкретных атрибутов
+}
+
+Article --|{ BaseParser : Владеет
+Article --|{ Parser : Владеет
+BaseParser --|{ Parser : Наследует
+FlaskAPI --|{ BaseParser : Использует
+FlaskAPI --|{ AI : Использует
+
+UI --|{ FlaskAPI : Взаимодействует
+@enduml

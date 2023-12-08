@@ -12,6 +12,12 @@
 
 ---
 
+## Дизайн
+
+- [ ] [Дизайн веб-сайта](https://www.figma.com/file/3W6Xv4wmOhsshLEOClEzIB/Web-News?type=design&node-id=614%3A352&mode=design&t=N5JFI43dsGL9gvB9-1)
+
+---
+
 ## Документация
 
 - [x] [Видение платформы](Видение_платформы.md)

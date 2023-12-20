@@ -32,5 +32,5 @@
 - [x] [UseCase Диаграмма](Диаграммы/useCase.md)
 - [x] [Концептуальная диаграмма](Диаграммы/ConceptualModel.md)
 - [x] [Диаграмма компонентов](Диаграммы/componentsDiagram.md)
-- [ ] [Диаграмма классов](Диаграммы/ClassDiagram.md)
+- [x] [Диаграмма классов](Диаграммы/ClassDiagram.md)
 - [x] [Диаграмма последовательностей](Диаграммы/ExplanatoryModel.md)

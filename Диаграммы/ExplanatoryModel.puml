@@ -8,18 +8,21 @@ database "База данных\nPostgresql" as Database
 participant "Искусственный Интеллект (AI)" as AI
 participant "Парсер" as Parser
 
-Reader -> UI : (1) Запрашивает статьи
-UI -> BackEnd : (2) Запрашивает данные
-BackEnd -> Database : (3) Запрашивает статьи
-Database --> BackEnd : (4) Отправляет данные
+
+BackEnd -> Parser : (1) Запрашивает парсинг статей (через определенное время)
+Parser --> BackEnd : (2) Отправляет спарсенные данные
+BackEnd -> Database : (3) Сохраняет статьи в базе
+Database --> BackEnd : (4) Подтверждение сохранения
 BackEnd -> AI : (5) Запрашивает обработку статей
 AI --> BackEnd : (6) Отправляет обработанные данные
-BackEnd -> Parser : (7) Запрашивает парсинг статей
-Parser --> BackEnd : (8) Отправляет спарсенные данные
-BackEnd -> Database : (9) Сохраняет статьи в базе
-Database --> BackEnd : (10) Подтверждение сохранения
-BackEnd --> UI : (11) Возвращает статьи
-UI --> Reader : (12) Отображает статьи
+BackEnd -> Database : (7) Сохраняет дополнительную информацию статьи в базе
+Database --> BackEnd : (8) Подтверждение сохранения
+Reader -> UI : (9) Запрашивает статьи
+UI -> BackEnd : (10) Запрашивает данные
+BackEnd -> Database : (11) Запрашивает актуальные статьи
+Database --> BackEnd : (12) Отправляет данные
+BackEnd --> UI : (13) Возвращает статьи
+UI --> Reader : (14) Отображает статьи
 
 note left of Reader
   Читатель - это конечный пользователь, который
